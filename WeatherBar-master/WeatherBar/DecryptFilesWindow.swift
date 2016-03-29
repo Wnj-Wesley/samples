@@ -8,15 +8,15 @@
 
 import Cocoa
 
-class DecryptFilesWindow: NSWindowController, NSTableViewDataSource, NSTableViewDelegate {
+class DecryptFilesWindow: NSWindowController, NSTableViewDataSource {
 
     @IBOutlet weak var decryptTableView: NSTableView!
-    var decryptFilesArray: NSArray
+    var decryptFilesArray: NSArray = []
     
     override var windowNibName : String! {
         return "DecryptFilesWindow"
     }
-    
+
     override func windowDidLoad() {
         super.windowDidLoad()
         
@@ -40,6 +40,8 @@ class DecryptFilesWindow: NSWindowController, NSTableViewDataSource, NSTableView
                     print("open file \(path!)")
                 }
             }
+            
+            decryptTableView.reloadData()
         }
     }
     
@@ -71,9 +73,9 @@ class DecryptFilesWindow: NSWindowController, NSTableViewDataSource, NSTableView
     }
     
     func tableView(tableView: NSTableView, dataCellForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSCell? {
-        let item = decryptFilesArray.objectAtIndex(row)
-        let cell = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self)
-        let textField = cell.
-        
+        let item: NSDictionary = decryptFilesArray.objectAtIndex(row) as! NSDictionary
+        //let cell = tableView.makeViewWithIdentifier(tableColumn!.identifier, owner: self)
+        let textField = NSTextFieldCell.init(textCell: String(item.objectForKey(tableColumn!.identifier)))
+        return textField
     }
 }
